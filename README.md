@@ -2,6 +2,7 @@
 
 This is SpringBoot based GraphQL demo project.
 We can use Postman to query data.
+![PostMan GraphQL Query](src/main/resources/GraphQLPostmanQuery.png)
 
 ## Tech Stack
 Java11
