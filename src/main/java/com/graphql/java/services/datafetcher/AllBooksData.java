@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AllBooksData implements DataFetcher<List<Book>> {
+public class AllBooksData implements DataFetcher<List<Book>>{
 
     @Autowired
     BookRepository bookRepository;
 
     @Override
     public List<Book> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        return  bookRepository.findAll();
+        return bookRepository.findAll();
     }
 }

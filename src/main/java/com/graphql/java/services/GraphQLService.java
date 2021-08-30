@@ -1,9 +1,9 @@
 package com.graphql.java.services;
 
-import com.graphql.java.models.Book;
 import com.graphql.java.repositories.BookRepository;
 import com.graphql.java.services.datafetcher.AllBooksData;
 import com.graphql.java.services.datafetcher.BookData;
+import com.graphql.java.models.Book;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -13,29 +13,29 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Stream;
 
+@Service
 public class GraphQLService {
 
     @Autowired
     BookRepository bookRepository;
 
-
     @Value("classpath:books.graphql")
     Resource resource;
 
     private GraphQL graphQL;
-
     @Autowired
-    private AllBooksData allBooksDataFetcher;
-
+    private AllBooksData allBooksData;
     @Autowired
-    private BookData bookDataFetcher;
+    private BookData bookData;
 
+    // load schema at application start up
     @PostConstruct
     private void loadSchema() throws IOException {
 
@@ -56,7 +56,7 @@ public class GraphQLService {
         Stream.of(
                 new Book("123", "Book of Clouds", "Kindle Edition",
                         new String[] {
-                                "Chloe Aridjis"
+                        "Chloe Aridjis"
                         }, "Nov 2017"),
                 new Book("124", "Cloud Arch & Engineering", "Orielly",
                         new String[] {
@@ -71,12 +71,11 @@ public class GraphQLService {
         });
     }
 
-
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("allBooks", allBooksDataFetcher)
-                        .dataFetcher("book", bookDataFetcher))
+                        .dataFetcher("allBooks", allBooksData)
+                        .dataFetcher("book", bookData))
                 .build();
     }
 
