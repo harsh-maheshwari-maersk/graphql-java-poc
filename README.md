@@ -1,6 +1,7 @@
 # Spring Boot with GraphQL Query Example
 
 This is SpringBoot based GraphQL demo project.
+We can use Postman to query data.
 
 ## Tech Stack
 Java11
